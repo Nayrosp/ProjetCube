@@ -1,0 +1,87 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Leemon</title>
+        <link rel="stylesheet" href="../static/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <script src="https://kit.fontawesome.com/d947c42210.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <script>
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://192.168.22.53:5000/Donnees");
+            xhr.send();
+            xhr.responseType = "json";
+            xhr.onload = () => {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    const data = xhr.response;
+                    console.log(data);
+    
+                    const temperaturesInfo = document.getElementById("temperatures-info");
+                    const humidityInfo = document.getElementById("Humidite-info");
+                    const PressionInfo = document.getElementById("Pression-info");
+    
+                    if (data.length > 0) {
+                        const lastData = data[data.length - 1];
+                        const temperature = lastData.Temperatures;
+                        const humidity = lastData.Humidite;
+                        const Pression = lastData.Pression;
+    
+                        temperaturesInfo.innerHTML = `<p>Température : ${temperature} °C</p>`;
+                        humidityInfo.innerHTML = `<p>Humidité : ${humidity} %</p>`;
+                        PressionInfo.innerHTML = `<p>Pression : ${Pression} %</p>`;
+                    } else {
+                        temperaturesInfo.innerHTML = "<p>Température : N/A</p>";
+                        humidityInfo.innerHTML = "<p>Humidité : N/A</p>";
+                        PressionInfo.innerHTML = "<p>Pression : N/A</p>";
+                    }
+                } else {
+                    console.log(`Error: ${xhr.status}`);
+                }
+            };
+        </script>
+    
+        <div id="transition_page" class="transition active"></div>
+    
+        <div id="header">
+            <div class="container">
+                <nav>
+                    <img src="" class="logo">
+                    <ul>
+                        <li><a href="http://192.168.22.53:5000/acceuil">Accueil</a></li>
+                        <li><a href="#">Graphique</a></li>
+                        <li><a href="http://192.168.22.53:5000/apropos">A propos</a></li>
+                        <li><a href="http://192.168.22.53:5000/contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    
+        <div id="fabrizio"></div>
+        <div class="container">
+            <div class="cloudy"></div>
+        </div>
+    
+        <div class="weather-container" id="temperatures-info">
+            <img src="../static/temperature.png" alt="Temperature Icon" class="temperature-image">
+            <div class="temperature-value">25°C</div>
+            <div class="weather-description">Ensoleillé</div>
+        </div>
+    
+        <div class="humidity-container" id="Humidite-info">
+            <img src="../static/humidite.png" alt="Humidite Icon" class="humidite-image">
+            <div class="humidity-value">40%</div>
+            <div class="humidity-description">Assez humide</div>
+        </div>
+    
+        <div class="pression-container" id="Pression-info">
+            <img src="../static/pression.png" alt="Pression Icon" class="pression-image">
+            <div class="pression-value">1015(pa)</div>
+            <div class="pression-description">Normal</div>
+        </div>
+    
+    </body>
+    
+    </html>
